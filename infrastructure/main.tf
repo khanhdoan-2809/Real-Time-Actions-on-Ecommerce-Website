@@ -7,6 +7,9 @@ module "iam" {
 module "kinesis" {
   source                    = "./modules/kinesis"
   mv_kinesis_stream_name    = var.lv_kinesis_stream_name 
+  mv_kinesis_firehose_name  = var.lv_kinesis_firehose_name
+  mv_bucket_arn             = module.s3.bucket_arn
+  mv_firehose_role_arn      = module.iam.kinesis_execution_role_arn
 }
 
 module "s3" {
