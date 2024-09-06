@@ -1,3 +1,3 @@
-variable "mv_lambda_arn" {
+variable "mv_lambda_invoke_arn" {
   type = string
 }

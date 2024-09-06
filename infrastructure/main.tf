@@ -26,5 +26,5 @@ module "lambda" {
 
 module "api_gateway" {
   source                = "./modules/api_gateway"
-  mv_lambda_arn         =  module.lambda.arn
+  mv_lambda_invoke_arn  =  module.lambda.invoke_arn
 }
