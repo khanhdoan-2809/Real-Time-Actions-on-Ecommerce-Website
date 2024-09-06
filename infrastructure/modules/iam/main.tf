@@ -60,3 +60,46 @@ resource "aws_iam_role_policy_attachment" "kiensis_stream_policy_attachment" {
   role        = aws_iam_role.kinesis_execution_role.name
   policy_arn  = aws_iam_policy.kinesis_stream_policy.arn
 }
+
+####################################################################
+# Lambda
+####################################################################
+data "aws_iam_policy_document" "lambda_execution_policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "lambda_execution_role" {
+  name               = "lambda_execution_role"
+  assume_role_policy = data.aws_iam_policy_document.lambda_execution_policy.json
+}
+
+data "template_file" "lambda" {
+  template = file("${path.root}/policies/lambda.json")
+
+  vars = {
+    kinesis_stream_arn  = var.mv_kinesis_stream_arn
+  }
+}
+
+resource "aws_iam_policy" "lambda_policy" {
+  name        = "lambda_policy"
+  description = "allows Lambda to write data to Kinesis stream."
+  policy      = data.template_file.lambda.rendered
+}
+
+resource "aws_iam_policy" "lambda_execution_policy" {
+  name   = "lambda_function_policy"
+  policy = data.template_file.lambda.rendered
+}
+
+resource "aws_iam_role_policy_attachment" "sqs_lambda_role_policy" {
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = aws_iam_policy.lambda_execution_policy.arn
+}

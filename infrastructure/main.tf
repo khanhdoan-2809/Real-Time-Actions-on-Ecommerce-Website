@@ -1,6 +1,6 @@
 module "iam" {
   source                = "./modules/iam"
-  mv_kinesis_stream_arn = module.kinesis.arn
+  mv_kinesis_stream_arn = module.kinesis.stream_arn
   mv_bucket_arn         = module.s3.bucket_arn
 }
 
@@ -15,4 +15,10 @@ module "kinesis" {
 module "s3" {
   source                = "./modules/s3"
   mv_bucket_name        = var.lv_bucket_name
+}
+
+module "lambda" {
+  source                = "./modules/lambda"
+  mv_lambda_role        = module.iam.lambda_execution_role_arn
+  mv_kinesis_stream_arn = module.kinesis.stream_arn
 }
