@@ -21,4 +21,10 @@ module "lambda" {
   source                = "./modules/lambda"
   mv_lambda_role        = module.iam.lambda_execution_role_arn
   mv_kinesis_stream_arn = module.kinesis.stream_arn
+  mv_api_gatway_arn     = module.api_gateway.execution_arn
+}
+
+module "api_gateway" {
+  source                = "./modules/api_gateway"
+  mv_lambda_arn         =  module.lambda.arn
 }
