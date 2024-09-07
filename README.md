@@ -1,4 +1,5 @@
 # Real-Time-Actions-on-Ecommerce-Website
 
-![image](https://github.com/user-attachments/assets/f6e988ef-e54d-441f-ac42-f09dc33e17b6)
+![image](https://github.com/user-attachments/assets/27d3adb9-4d34-45b8-9aff-300f502efb88)
+
 
