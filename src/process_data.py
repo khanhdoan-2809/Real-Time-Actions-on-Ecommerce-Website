@@ -2,11 +2,12 @@ import boto3
 import json
 
 def lambda_handler(event, context):
+    print(event)
     if 'body' in event:
         event = json.loads(event['body'])
     else:
         event = json.loads(event['Records'][0]['body'])
-        
+    
     required_fields = ['id', 'title', 'price', 'category']
     processed_data = {field: event.get(field) for field in required_fields}
     
@@ -23,8 +24,9 @@ def lambda_handler(event, context):
         PartitionKey='partition_key'
     )
     
+    print("send data to kinesis data stream sucessfully")
+    print(response)
     return {
         'statusCode': 200,
-        'body': 'Processed Data sent to Kinesis stream successfully.',
-        'response': response
+        'body': f'Processed Data sent to Kinesis stream successfully: {str(response)}',
     }

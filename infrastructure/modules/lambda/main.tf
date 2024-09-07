@@ -20,5 +20,5 @@ resource "aws_lambda_permission" "allows_sqs_to_trigger_lambda" {
     action        = "lambda:InvokeFunction"
     principal     = "apigateway.amazonaws.com"
     function_name = aws_lambda_function.lambda_function.function_name
-    source_arn    = var.mv_api_gatway_arn
+    source_arn    = "${var.mv_api_gatway_arn}/*/*/*"
 }
